@@ -7,4 +7,5 @@ import trungle95.personal.example.PPMT.domain.Project;
 @Repository
 public interface ProjectRepository extends CrudRepository<Project, Long> {
 
+    Project findByProjectIdentifier(String project);
 }
