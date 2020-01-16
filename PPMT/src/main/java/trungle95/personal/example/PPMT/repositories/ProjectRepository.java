@@ -8,4 +8,7 @@ import trungle95.personal.example.PPMT.domain.Project;
 public interface ProjectRepository extends CrudRepository<Project, Long> {
 
     Project findByProjectIdentifier(String project);
+
+    @Override
+    Iterable<Project> findAll();
 }
