@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import ProjectItem from "./Project/ProjectItem";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CreateProjectButton from "./Project/CreateProjectButton";
