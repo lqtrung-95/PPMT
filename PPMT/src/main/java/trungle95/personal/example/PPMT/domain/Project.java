@@ -39,6 +39,17 @@ public class Project {
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_at;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+    private BackLog backLog;
+
+    public BackLog getBackLog() {
+        return backLog;
+    }
+
+    public void setBackLog(BackLog backLog) {
+        this.backLog = backLog;
+    }
+
     @PrePersist
     protected void onCreate() {
         this.created_at = new Date();

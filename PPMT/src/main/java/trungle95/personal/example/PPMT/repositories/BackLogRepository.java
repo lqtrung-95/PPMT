@@ -6,4 +6,6 @@ import trungle95.personal.example.PPMT.domain.BackLog;
 
 @Repository
 public interface BackLogRepository extends CrudRepository<BackLog, Long> {
+
+    BackLog findByProjectIdentifier(String Identifier);
 }
