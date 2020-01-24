@@ -1,5 +1,7 @@
 package trungle95.personal.example.PPMT.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -26,6 +28,10 @@ public class ProjectTask {
     private Date dueDate;
 
     //ManyToOne with backLog
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "backlog_id", updatable = false, nullable = false)
+    @JsonIgnore
+    private BackLog backlog;
 
     @Column(updatable = false)
     private String projectIdentifier;
@@ -115,6 +121,14 @@ public class ProjectTask {
 
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public BackLog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(BackLog backlog) {
+        this.backlog = backlog;
     }
 
     @PrePersist
