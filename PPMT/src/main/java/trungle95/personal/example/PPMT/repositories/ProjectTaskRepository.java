@@ -4,6 +4,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import trungle95.personal.example.PPMT.domain.ProjectTask;
 
+import java.util.List;
+
 @Repository
 public interface ProjectTaskRepository extends CrudRepository<ProjectTask, Long> {
+
+    List<ProjectTask> findByProjectIdentifierOrderByPriority(String id);
 }

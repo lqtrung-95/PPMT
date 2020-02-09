@@ -7,8 +7,10 @@ import trungle95.personal.example.PPMT.domain.ProjectTask;
 import trungle95.personal.example.PPMT.repositories.BackLogRepository;
 import trungle95.personal.example.PPMT.repositories.ProjectTaskRepository;
 
+import java.util.List;
+
 @Service
-public class ProjectTaskService {
+public class  ProjectTaskService {
 
     @Autowired
     private BackLogRepository backLogRepository;
@@ -28,6 +30,8 @@ public class ProjectTaskService {
         Integer BackLogSequence = backlog.getPTSequence();
         BackLogSequence++;
 
+        backlog.setPTSequence(BackLogSequence);
+
         // add sequence to pt
         projectTask.setProjectSequence(projectIdentifier+"-"+BackLogSequence);
 
@@ -45,4 +49,7 @@ public class ProjectTaskService {
 
     }
 
+    public Iterable<ProjectTask> findBacklogById(String id){
+        return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
+    }
 }
