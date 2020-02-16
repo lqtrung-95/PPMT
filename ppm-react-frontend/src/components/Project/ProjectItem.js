@@ -1,8 +1,14 @@
 import React, { Component } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { deleteProject } from "../../actions/projectActions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFlagCheckered,
+  faEdit,
+  faMinusCircle
+} from "@fortawesome/free-solid-svg-icons";
 
 class ProjectItem extends Component {
   onDeleteClick = id => {
@@ -26,23 +32,28 @@ class ProjectItem extends Component {
               <ul className="list-group">
                 <Link to={`/projectBoard/${project.projectIdentifier}`}>
                   <li className="list-group-item board">
-                    <i className="fa fa-flag-checkered pr-1">Project Board </i>
+                    <FontAwesomeIcon icon={faFlagCheckered} className="pr-1" />{" "}
+                    Project Board
                   </li>
                 </Link>
                 <Link to={`/updateProject/${project.projectIdentifier}`}>
                   <li className="list-group-item update">
-                    <i className="fa fa-edit pr-1">Update Project Info</i>
+                    <span className="pr-1 text-info">
+                      <FontAwesomeIcon icon={faEdit} /> Update Project Info
+                    </span>
                   </li>
                 </Link>
                 <a href="">
-                  <li 
+                  <li
                     className="list-group-item delete"
                     onClick={this.onDeleteClick.bind(
                       this,
                       project.projectIdentifier
                     )}
                   >
-                    <i className="fa fa-minus-circle pr-1">Delete Project</i>
+                    <span className="pr-1 text-danger">
+                      <FontAwesomeIcon icon={faMinusCircle} /> Delete Project
+                    </span>
                   </li>
                 </a>
               </ul>
@@ -58,7 +69,4 @@ ProjectItem.propTypes = {
   deleteProject: PropTypes.func.isRequired
 };
 
-export default connect(
-  null,
-  { deleteProject }
-)(ProjectItem);
+export default connect(null, { deleteProject })(ProjectItem);
