@@ -1,12 +1,17 @@
 package trungle95.personal.example.PPMT.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,16 +33,6 @@ public class User {
     private Date created_at;
 
     private Date updated_at;
-
-    @PrePersist
-    protected void onCreate(){
-        this.created_at = new Date();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updated_at = new Date();
-    }
 
     //OneToMany with Project
     public User() {
@@ -97,5 +92,47 @@ public class User {
 
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
+    }
+
+    @PrePersist
+    protected void onCreate(){
+        this.created_at = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updated_at = new Date();
+    }
+
+    // UserDetails interface methods
+
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isEnabled() {
+        return true;
     }
 }
