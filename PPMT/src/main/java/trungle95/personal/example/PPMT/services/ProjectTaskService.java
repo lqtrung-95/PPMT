@@ -26,38 +26,38 @@ public class  ProjectTaskService {
 
     public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask){
 
-        try{
-            // PTs to be added to a specific project, project != null => Backlog exists
-            // set the bl to pt
+        try {
+            //PTs to be added to a specific project, project != null, BL exists
             BackLog backlog = backLogRepository.findByProjectIdentifier(projectIdentifier);
-
+            //set the bl to pt
             projectTask.setBacklog(backlog);
+            //we want our project sequence to be like this: IDPRO-1  IDPRO-2  ...100 101
+            Integer BacklogSequence = backlog.getPTSequence();
+            // Update the BL SEQUENCE
+            BacklogSequence++;
 
-            // we want our project sequence to be like this: IDPRO-1 IDPRO-2 ... 100
-            Integer BackLogSequence = backlog.getPTSequence();
-            BackLogSequence++;
+            backlog.setPTSequence(BacklogSequence);
 
-            backlog.setPTSequence(BackLogSequence);
-
-            // add sequence to pt
-            projectTask.setProjectSequence(projectIdentifier+"-"+BackLogSequence);
-
+            //Add Sequence to Project Task
+            projectTask.setProjectSequence(backlog.getProjectIdentifier()+"-"+BacklogSequence);
             projectTask.setProjectIdentifier(projectIdentifier);
 
-            if(projectTask.getPriority()==null){
-                projectTask.setPriority(3);
-            }
+            //INITIAL priority when priority null
 
-            if(projectTask.getStatus()==null||projectTask.getStatus()==""){
+            //INITIAL status when status is null
+            if(projectTask.getStatus()==""|| projectTask.getStatus()==null){
                 projectTask.setStatus("TO_DO");
             }
 
-            return projectTaskRepository.save(projectTask);
-        }
+            if((projectTask.getPriority() == null) || (projectTask.getPriority() == 0)){ //In the future we need projectTask.getPriority()== 0 to handle the form
+                projectTask.setPriority(3);
+            }
 
-        catch(Exception e){
+            return projectTaskRepository.save(projectTask);
+        }catch (Exception e){
             throw new ProjectNotFoundException("Project not Found");
         }
+
     }
 
     public Iterable<ProjectTask> findBacklogById(String id){
