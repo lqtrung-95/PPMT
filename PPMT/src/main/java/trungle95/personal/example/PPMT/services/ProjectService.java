@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import trungle95.personal.example.PPMT.domain.BackLog;
 import trungle95.personal.example.PPMT.domain.Project;
+import trungle95.personal.example.PPMT.domain.User;
 import trungle95.personal.example.PPMT.exceptions.ProjectIdException;
 import trungle95.personal.example.PPMT.repositories.BackLogRepository;
 import trungle95.personal.example.PPMT.repositories.ProjectRepository;
+import trungle95.personal.example.PPMT.repositories.UserRepository;
 
 @Service
 public class ProjectService {
@@ -17,8 +19,15 @@ public class ProjectService {
     @Autowired
     private BackLogRepository backLogRepository;
 
-    public Project saveOrUpdateProject(Project project) {
+    @Autowired
+    private UserRepository userRepository;
+
+    public Project saveOrUpdateProject(Project project, String username) {
         try{
+            User user = userRepository.findByUsername(username);
+
+            project.setUser(user);
+            project.setProjectLeader(user.getUsername());
             project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
 
             if(project.getId() == null){
