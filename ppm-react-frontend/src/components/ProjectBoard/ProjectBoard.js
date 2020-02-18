@@ -4,8 +4,6 @@ import Backlog from "./Backlog";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { getBacklog } from "../../actions/backlogActions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
 class ProjectBoard extends Component {
   //constructor to handle errors
@@ -36,10 +34,17 @@ class ProjectBoard extends Component {
 
     const boardAlgorithm = (errors, project_tasks) => {
       if (project_tasks.length < 1) {
+        //PROJECT IDENTIFIER BUG
         if (errors.projectNotFound) {
           return (
             <div className="alert alert-danger text-center" role="alert">
               {errors.projectNotFound}
+            </div>
+          );
+        } else if (errors.projectIdentifier) {
+          return (
+            <div className="alert alert-danger text-center" role="alert">
+              {errors.projectIdentifier}
             </div>
           );
         } else {
@@ -59,9 +64,7 @@ class ProjectBoard extends Component {
     return (
       <div className="container">
         <Link to={`/addProjectTask/${id}`} className="btn btn-primary mb-3">
-          <span>
-            <FontAwesomeIcon icon={faPlusSquare} /> Create project task
-          </span>
+          <i className="fas fa-plus-circle"> Create Project Task</i>
         </Link>
         <br />
         <hr />
@@ -82,4 +85,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { getBacklog })(ProjectBoard);
+export default connect(
+  mapStateToProps,
+  { getBacklog }
+)(ProjectBoard);
